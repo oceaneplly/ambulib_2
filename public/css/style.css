@@ -1,0 +1,6 @@
+.tr1 {
+    width: 800px;
+    display: flex;
+    border: 1px solid green;
+    background-color: red;
+}

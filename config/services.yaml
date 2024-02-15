@@ -1,0 +1,80 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    # General
+    timezone: 'Europe/Paris'
+    version: 1.0
+    nbPerPage: 500 # paginator
+    maxUsers: 50 # nombre d'utilisateurs maximum autorisés dans la table Utilisateur. 0 = pas de limite
+    unauthorizedProfiles: [] # Liste des ids des profils non autorisés à se connecter
+
+    # Security
+    tokenSecurity: true # Active/désactive la "tokenSecurity"
+    secret_key: mOnApPlI # Clé de cryptage utilisée dans la création du token
+    tokenValidity: 0 # en sec (8,5*60*60), durée de validité du token. Mettre null ou 0 pour la désactiver.
+    tokenSeparator: ';#;' # Séparateur utilisé dans la création du token
+    passwordHashing: true # Active/désactive le hashage des mots de passe des utilisateurs à l'enregistrement
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+            - '../src/Repository/GeneralRepository.php'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+
+    App\Command\:	
+        resource: '../src/Command/'
+
+    # Formateur pour monolog
+    monolog.my_line_formatter:
+        class: Monolog\Formatter\LineFormatter
+        arguments:
+            - ~     # - '[%%datetime%%]  %%channel%%.%%level_name%%: %%message%% [%%context%%] [%%extra%%]\n'
+            - 'Y-m-d\TH:i:sP'
+            - true
+            - true
+
+    App\Command\AddAnnotationsCommand:
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+knp_snappy:
+    pdf:
+        enabled:    true
+        binary:     '\"C:\\Users\\a043211A\\Documents\\wkhtmltox\\bin\\wkhtmltopdf.exe\"'
+        options:
+            page-size: A4
+            dpi: 300
+            image-quality: 100
+            margin-left: 15mm
+            margin-right: 15mm
+            margin-top: 15mm
+            margin-bottom: 15mm
+
+    image:
+        enabled:    true
+        binary:     /usr/local/bin/wkhtmltoimage #"\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltoimage.exe\"" for Windows users
+        options:    []
+

@@ -1,0 +1,6 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    globals:
+        css: '%kernel.project_dir%\public\css\style.css'
+        images: '%kernel.project_dir%\public\'
+

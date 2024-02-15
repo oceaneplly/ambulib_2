@@ -1,0 +1,18 @@
+knp_snappy:
+    pdf:
+        enabled:    true
+        binary:     '\"C:\\Users\\a043211\\Documents\\wkhtmltox\\bin\\wkhtmltopdf.exe\"'
+        options:
+            page-size: A4
+            dpi: 300
+            image-quality: 100
+            margin-left: 30mm
+            margin-right: 30mm
+            margin-top: 30mm
+            margin-bottom: 30mm
+            encoding: UTF-8
+
+    image:
+        enabled:    true
+        binary:     /usr/local/bin/wkhtmltoimage #"\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltoimage.exe\"" for Windows users
+        options:    []

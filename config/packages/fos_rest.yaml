@@ -1,0 +1,19 @@
+# Read the documentation: https://symfony.com/doc/master/bundles/FOSRestBundle/index.html
+fos_rest:
+  body_listener : true
+  body_converter:
+    enabled: true
+    validate: true
+    validation_errors_argument: validationErrors
+  view:
+    formats: { json: true, xml: false, rss: false }
+    view_response_listener: force
+  serializer:
+    serialize_null: true
+  format_listener:
+    rules:
+      - { path: 'print', priorities: ['html'], fallback_format: 'json' }
+      - { path: '^/', priorities: ['json'], fallback_format: 'html' }
+  param_fetcher_listener: force
+  zone:
+
